@@ -17,6 +17,11 @@ const TaskSchema = new Schema({
         min: [0, 'Status not recognized'],
         max: [1],
         default: 0
+    },
+    list: {
+        type: Schema.Types.ObjectId,
+        ref: 'List',
+        required: true
     }
 });
 

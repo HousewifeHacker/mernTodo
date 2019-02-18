@@ -14,6 +14,9 @@
     "nodemon": "^1.18.9"
   },
   "scripts": {
-      "server": "nodemon server.js"
+      "client-install": "cd client && yarn install",
+      "server": "nodemon server.js",
+      "client": "cd client && yarn start",
+      "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   }
 }

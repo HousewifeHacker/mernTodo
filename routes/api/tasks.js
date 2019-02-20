@@ -6,6 +6,8 @@ const router = express.Router();
 const Task = require('../../models/Task');
 const List = require('../../models/List');
 
+
+
 // GET all tasks by date descending
 router.get('/', (req, res) => {
     Task.find()
@@ -13,7 +15,7 @@ router.get('/', (req, res) => {
         .then(tasks => res.json(tasks));
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     // list already exists
     const newTask = new Task({
         _id: new mongoose.Types.ObjectId(), //need this id for List
@@ -26,13 +28,15 @@ router.post('/', (req, res) => {
     // tasks aray can be used for order of tasks
     newTask
         .save(err => {
-            if (err) { return console.log(err) }
+            if (err) { return next(err) }
             List.findByIdAndUpdate(
                 newTask.list,
                 {$push: {tasks: newTask._id}},
                 (err, doc) => {
-                    if (err) {
-                        console.log(err);
+                    if (err || !doc) {
+                        const error = new Error('Error adding task id to list');
+                        error.status = 404;
+                        return next(error);
                     } else {
                         res.json(newTask);
                     }
@@ -42,19 +46,24 @@ router.post('/', (req, res) => {
 
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
     const taskId = req.params.id
     Task.findByIdAndRemove(
         taskId,
         (err, doc) => {
-            if (!doc) { return console.log('Error removing task') }
+            if (!doc || err) {
+                const error = new Error('Error removing task');
+                error.status = 404;
+                return next(error);
+            }
             List.findByIdAndUpdate(
                 doc.list,
                 {$pull: {tasks: taskId}},
                 (err, doc) => {
-                    if (!doc) {
-                        // still allow but I want to know
-                        console.log('Error finding parent list');
+                    if (!doc || err) {
+                        const error = new Error('Error finding parent list');
+                        error.status = 410;
+                        return next(error);
                     }
                     res.json({success: true});
                 }

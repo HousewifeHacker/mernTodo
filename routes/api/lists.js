@@ -31,17 +31,17 @@ router.post('/', (req, res) => {
         .then(list => res.json(list));
 });
 
-router.delete('/:id', (req, res) => {
-    // This mongoose helper uses a callback
-    List.findByIdAndDelete(req.params.id, (err, list) => {
+router.delete('/:id', (req, res, next) => {
+    List.findByIdAndDelete(req.params.id, (err, doc) => {
         // couldnt find or delete id
-        if (!list) {
-            return res.status(404).json({success: false});
+        if (!doc || err) {
+            const error = new Error('Error deleting list');
+            error.status = 404;
+            return next(error);
         }
         // delete the children tasks too
-        console.log(list.tasks)
         Task.deleteMany({_id: {$in: list.tasks}}, (err) => {
-            if (err) { return err }
+            if (err) { return next(err) }
             res.json({success: true});
         });
     });

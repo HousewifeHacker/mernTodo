@@ -14,11 +14,8 @@ router.get('/', (req, res) => {
 // a list and it's tasks' names
 router.get('/:id', (req, res) => {
     List.findById(req.params.id)
-        .populate({
-            path: 'tasks',
-            select: 'name',
-            options: {sort: {date: -1}}
-        }).then(list => res.json(list));
+        .populate('tasks')
+        .then(list => res.json(list));
 });
 
 router.post('/', (req, res) => {
@@ -29,6 +26,20 @@ router.post('/', (req, res) => {
     newList
         .save()
         .then(list => res.json(list));
+});
+
+// used to reorder the tasks in a list
+router.put('/:id', (req, res, next) => {
+    
+    List.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, doc) => {
+        if (!doc || err) {
+            const error = new Error('Error updating list');
+            error.status = 404;
+            return next(error);
+        }
+        doc.tasks = req.body.tasks;
+        doc.save().then(list => res.json(list));
+    });
 });
 
 router.delete('/:id', (req, res, next) => {

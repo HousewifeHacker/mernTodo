@@ -17,7 +17,6 @@ export default class Task extends Component {
                         ref={provided.innerRef}
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
-                        isDragging={snapshot.isDragging}
                     >
                         <ListGroupItem>
                             <Button

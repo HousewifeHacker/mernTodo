@@ -13,8 +13,8 @@ export default class ToDoList extends Component {
     state = {tasks: [], listId: "5c6d5b34a882b47c33563fa1"};
 
     componentDidMount() {
-        axios.get('api/tasks')
-            .then(res => this.setState({tasks: res.data}));
+        axios.get(`api/lists/${this.state.listId}`)
+            .then(res => this.setState({tasks: res.data.tasks}));
     }
 
     addItem = () => {
@@ -41,8 +41,21 @@ export default class ToDoList extends Component {
             });
     }
 
-    onDragEnd = () => {
-        console.log('moved');
+    onDragEnd = (result) => {
+        const { destination, source, draggableId } = result;
+        if (!destination) { return }
+        if (destination.index === source.index) { return }
+
+        const tasks = this.state.tasks.slice();
+        const [removed] = tasks.splice(source.index, 1);
+        tasks.splice(destination.index, 0, removed);
+        this.setState({tasks: tasks});
+        const tasksIds = tasks.map( task => { return task._id })
+
+        // tasks order saved as array of ids under List model
+        axios.put(`api/lists/${this.state.listId}`, {
+            tasks: tasksIds 
+        })
     }
 
     render() {
@@ -69,7 +82,6 @@ export default class ToDoList extends Component {
                                 className="col-sm-3"
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
-                                isDraggingOver={snapshot.isDraggingOver}
                             >
                                 <ListGroup>
                                     {taskElems}

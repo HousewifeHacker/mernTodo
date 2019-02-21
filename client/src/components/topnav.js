@@ -15,7 +15,7 @@ export default class TopNav extends Component {
                     <NavbarBrand href="/">Goals Tracker</NavbarBrand>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="https://github.com/housewifehacker">Github</NavLink>
+                            <NavLink href="https://github.com/HousewifeHacker/mernTodo">Github</NavLink>
                         </NavItem>
                     </Nav>
                 </Navbar>

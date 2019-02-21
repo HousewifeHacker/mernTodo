@@ -3,22 +3,36 @@ import {
     Button,
     ListGroupItem,
 } from 'reactstrap';
+import { Draggable } from 'react-beautiful-dnd';
 
 export default class Task extends Component {
     render() {
-        const {_id, name, removeTask} = this.props;
+        const {_id, name, index, removeTask} = this.props;
         
         return (
-            <ListGroupItem>
-                <Button
-                    className="remove-btn mr-1"
-                    color="danger"
-                    size="sm"
-                    onClick={() => removeTask(_id)}>
-                    &times;
-                </Button>
-                {name}
-            </ListGroupItem>
+            <Draggable draggableId={_id} index={index}>
+                {(provided, snapshot) => ( 
+                    // reactstrap isnt my component, so dnd needs dom element
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        isDragging={snapshot.isDragging}
+                    >
+                        <ListGroupItem>
+                            <Button
+                                className="remove-btn mr-1"
+                                color="danger"
+                                size="sm"
+                                onClick={() => removeTask(_id)}
+                            >
+                                &times;
+                            </Button>
+                            {name}
+                        </ListGroupItem>
+                    </div>
+                )}
+            </Draggable>
         );
     }
 }

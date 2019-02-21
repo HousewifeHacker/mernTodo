@@ -5,7 +5,7 @@ import {
     Container,
     ListGroup,
 } from 'reactstrap';
-import uuid from 'uuid';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import Task from './task';
 
@@ -41,22 +41,48 @@ export default class ToDoList extends Component {
             });
     }
 
+    onDragEnd = () => {
+        console.log('moved');
+    }
+
     render() {
         const { tasks } = this.state;
-        const taskElems = tasks.map( task => {
-            return (<Task {...task} removeTask={this.removeTask} key={task._id} />);
+        const taskElems = tasks.map( (task, index) => {
+            return (
+                <Task
+                    {...task}
+                    removeTask={this.removeTask}
+                    key={task._id}
+                    index={index}
+                />
+            );
         });
 
         return(
-            <Container>
-                <h1>ToDo</h1>
-                <ListGroup className="col-sm-3">
-                    {taskElems}
-                </ListGroup>
-                <Button className="mt-2" onClick={this.addItem}>
-                    Add Task
-                </Button>
-            </Container>
+            <DragDropContext onDragEnd={this.onDragEnd}>
+                <Container>
+                    <h1>ToDo</h1>
+                    <Droppable droppableId="droppable">
+                        {(provided, snapshot) => (
+                            //  dnd ref needs html element. Divitis
+                            <div
+                                className="col-sm-3"
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                isDraggingOver={snapshot.isDraggingOver}
+                            >
+                                <ListGroup>
+                                    {taskElems}
+                                    {provided.placeholder}
+                                </ListGroup>
+                            </div>
+                        )}
+                    </Droppable>
+                    <Button className="mt-2" onClick={this.addItem}>
+                        Add Task
+                    </Button>
+                </Container>
+            </DragDropContext>
         );
     }
 }

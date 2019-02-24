@@ -9,6 +9,7 @@ const List = require('../../models/List');
 
 
 // GET all tasks by date descending
+// not used in app, here to debug
 router.get('/', (req, res) => {
     Task.find()
         .sort({ date: -1 })
@@ -70,6 +71,22 @@ router.delete('/:id', (req, res, next) => {
             );
         }
     );
+});
+
+router.put('/:id', (req, res, next) => {
+    Task.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, doc) => {
+        // TODO move to another list
+        if (!doc || err) {
+            const error = new Error('Error updating task');
+            error.status = 404;
+            return next(error);
+        }
+        // just status for now
+        doc.status = req.body.status;
+        doc.save()
+            .then(task => res.send(task))
+            .catch(err => res.status(500).json(err));
+    });
 });
 
 

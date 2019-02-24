@@ -15,7 +15,7 @@ const TaskSchema = new Schema({
     status: {
         type: Number,
         min: [0, 'Status not recognized'],
-        max: [1],
+        max: [2],
         default: 0
     },
     list: {

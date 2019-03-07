@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 //internal
+const users = require('./routes/api/users');
 const tasks = require('./routes/api/tasks');
 const lists = require('./routes/api/lists');
 
@@ -17,6 +18,7 @@ mongoose.connect(db)
     .catch( (err) => console.log(err));
 
 //routes
+app.use('/api/users', users);
 app.use('/api/tasks', tasks);
 app.use('/api/lists', lists);
 

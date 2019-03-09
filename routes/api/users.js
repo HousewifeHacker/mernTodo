@@ -13,6 +13,12 @@ router.post('/', (req, res, next) => {
             message: "Email and password are required",
         });
     }
+    if (password.length<6) {
+        return res.send({
+            success: false,
+            message: "Password must be a minimum of 6 characters."
+        })
+    }
 
     email = email.toLowerCase().trim();
 
@@ -28,29 +34,28 @@ router.post('/', (req, res, next) => {
                 success: false,
                 message: 'User already exists',
             });
-        }
-    });
-
-    // save with a hashed password
-    // static method defined on User Schema with bcrypt
-    const newUser = new User({
-        email: email,
-        password: User.generateHash(password),
-    });
-    newUser.save((err, user) => {
-        if (err) {
-            return res.send({
-                success: false,
-                message: 'Server Error',
+        } else {
+            // save with a hashed password
+            // static method defined on User Schema with bcrypt
+            const newUser = new User({
+                email: email,
+                password: User.generateHash(password),
+            });
+            newUser.save((err, user) => {
+                if (err) {
+                    return res.send({
+                        success: false,
+                        message: 'Server Error',
+                    });
+                }
+                return res.send({
+                    success: true,
+                    message: 'Signed Up',
+                });
             });
         }
-        return res.send({
-            success: true,
-            message: 'Signed Up',
-        });
     });
 });
-
 
 
 module.exports = router;

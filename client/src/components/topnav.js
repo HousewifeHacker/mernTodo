@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
+    Button,
     Navbar,
     NavbarBrand,
     Nav,
@@ -8,6 +10,32 @@ import {
 } from 'reactstrap';
 
 export default class TopNav extends Component {
+    renderAuthLinks = () => {
+        let token = false;
+        if (!token) {
+            return (
+                <div>
+                    <Button
+                        outline
+                        color="link"
+                        tag={Link}
+                        to="/signin">
+                            Sign In
+                    </Button>
+                    <Button
+                        outline
+                        color="link"
+                        tag={Link}
+                        to="/signup">
+                            Sign Up
+                    </Button>
+                </div>
+            );
+        } else {
+            return 'Logout';
+        }
+    }
+
     render() {
         return(
             <div>
@@ -16,6 +44,9 @@ export default class TopNav extends Component {
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink href="https://github.com/HousewifeHacker/mernTodo">Github</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            {this.renderAuthLinks()}
                         </NavItem>
                     </Nav>
                 </Navbar>

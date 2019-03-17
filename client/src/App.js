@@ -4,9 +4,11 @@ import { Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+import withAuth from './utils/withAuth';
 import TopNav from './components/topnav';
 import ToDoList from './components/todolist';
 import SignUpForm from './components/signupform';
+import SignInForm from './components/signinform';
 
 class App extends Component {
     render() {
@@ -14,8 +16,9 @@ class App extends Component {
             <div className="App">
                 <TopNav />
                 <Switch>
-                    <Route exact path="/" component={ToDoList} />
+                    <Route exact path="/" component={withAuth(ToDoList)} />
                     <Route path="/signup" component={SignUpForm} />
+                    <Route path="/signin" component={SignInForm} />
                 </Switch>
             </div>
         );

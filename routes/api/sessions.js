@@ -4,6 +4,25 @@ const router = express.Router();
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSession');
 
+// verify a token
+router.get('/:id', (req, res) => {
+    const token = req.params.id;
+    UserSession.find({
+        _id: token,
+    }, (err, sessions) => {
+        if (err || sessions.length != 1) {
+            return res.send({
+                success: false,
+                message: 'Error finding token.'
+            });
+        }
+        return res.send({
+            success: true,
+            message: 'Success'
+        });
+    });
+});
+
 router.post('/', (req, res) => {
     let {email, password} = req.body;
     email = email.toLowerCase().trim();

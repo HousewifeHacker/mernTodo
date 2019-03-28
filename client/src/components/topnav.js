@@ -11,7 +11,7 @@ import {
 
 export default class TopNav extends Component {
     renderAuthLinks = () => {
-        let token = false;
+        let token = this.props.isLoggedIn;
         if (!token) {
             return (
                 <div>

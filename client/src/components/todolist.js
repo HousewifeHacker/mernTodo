@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {
     Button,
@@ -59,6 +60,9 @@ export default class ToDoList extends Component {
     }
 
     render() {
+        if (!this.props.isLoggedIn) {
+            return <Redirect to="/signin" />
+        }
         const { tasks } = this.state;
         const taskElems = tasks.map( (task, index) => {
             return (

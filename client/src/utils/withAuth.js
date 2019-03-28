@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import { getFromStorage } from './storage';
@@ -7,8 +6,8 @@ import { getFromStorage } from './storage';
 export default function withAuth(ProtectedComponent) {
     return class extends Component {
         state = {
-            loading: true,
-            redirect: false,
+            isLoading: true,
+            isLoggedIn: false,
         };
 
         componentDidMount() {
@@ -18,37 +17,32 @@ export default function withAuth(ProtectedComponent) {
                 axios.get(`api/sessions/${token}`)
                     .then(res => {
                         const { data } = res;
-                        console.log(data);
                         if (!data.success) {
                             this.setState({
-                                redirect: true,
-                                loading: false,
+                                isLoading: false,
                             });
                         } else {
                             this.setState({
-                                loading: false,
+                                isLoading: false,
+                                isLoggedIn: true,
                             });
                         }
                     });
             } else {
                 this.setState({
-                    redirect: true,
-                    loading: false,
+                    isLoading: false,
                 });
             }
         }
 
         render() {
-            const { loading, redirect } = this.state;
-            if (loading) {
+            const { isLoading, isLoggedIn } = this.state;
+            if (isLoading) {
                 return null;
-            }
-            if (redirect) {
-                return <Redirect to="/signin" />
             }
             return (
                 <Fragment>
-                    <ProtectedComponent {...this.props} />
+                    <ProtectedComponent {...this.props} isLoggedIn={isLoggedIn} />
                 </Fragment>
             );
         }

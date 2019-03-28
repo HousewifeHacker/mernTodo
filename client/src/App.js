@@ -10,11 +10,13 @@ import ToDoList from './components/todolist';
 import SignUpForm from './components/signupform';
 import SignInForm from './components/signinform';
 
+const AuthNav = withAuth(TopNav);
+
 class App extends Component {
     render() {
         return (
             <div className="App">
-                <TopNav />
+                <AuthNav />
                 <Switch>
                     <Route exact path="/" component={withAuth(ToDoList)} />
                     <Route path="/signup" component={SignUpForm} />

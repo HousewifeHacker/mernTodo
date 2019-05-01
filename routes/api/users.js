@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 const User = require('../../models/User');
+const UserSession = require('../../models/UserSession');
 
 router.post('/', (req, res, next) => {
     let {email, password} = req.body;
@@ -48,10 +49,22 @@ router.post('/', (req, res, next) => {
                         message: 'Server Error',
                     });
                 }
-                return res.send({
-                    success: true,
-                    message: 'Signed Up',
+                // sign them in
+                const newUserSession = new UserSession({
+                    userId: user._id
                 });
+                newUserSession.save((err, session) => {
+                    if (err || !session ) {
+                        return res.send({
+                            success: false,
+                            message: 'Server Error starting session',
+                        });
+                    }
+                    return res.send({
+                        success: true,
+                        token: session._id
+                    });
+                })
             });
         }
     });

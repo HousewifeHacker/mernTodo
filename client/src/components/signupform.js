@@ -37,7 +37,9 @@ export default class SignUpForm extends Component {
         .then( (resp) => {
             const { data } = resp;
             if (data.success) {
-                console.log('success');
+                // TODO contains token
+                console.log(data);
+                this.props.history.push('/');
             } else {
                 this.setState({errorMessage: data.message});
             }

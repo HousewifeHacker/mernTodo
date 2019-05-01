@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
     Button,
     Navbar,
@@ -9,31 +9,37 @@ import {
     NavLink,
 } from 'reactstrap';
 
-export default class TopNav extends Component {
+import { AuthConsumer } from '../utils/AuthContext';
+
+class TopNav extends Component {
     renderAuthLinks = () => {
-        let token = this.props.isLoggedIn;
-        if (!token) {
-            return (
-                <div>
-                    <Button
-                        outline
-                        color="link"
-                        tag={Link}
-                        to="/signin">
-                            Sign In
-                    </Button>
-                    <Button
-                        outline
-                        color="link"
-                        tag={Link}
-                        to="/signup">
-                            Sign Up
-                    </Button>
-                </div>
-            );
-        } else {
-            return 'Logout';
-        }
+        return(
+            <AuthConsumer>
+                {({ authToken, logout, login }) => (
+                    <div>
+                        {authToken ? (
+                            <Button onClick={logout}>Logout</Button>
+                        ) : (
+                            <React.Fragment>
+                                <Button
+                                    outline
+                                    color="link"
+                                    onClick={(e) => login('dummy_token')}>
+                                        Sign In
+                                </Button>
+                                <Button
+                                    outline
+                                    color="link"
+                                    tag={Link}
+                                    to="/signup">
+                                        Sign Up
+                                </Button>
+                            </React.Fragment>
+                        )}
+                    </div>
+                )}
+            </AuthConsumer>
+        );
     }
 
     render() {
@@ -54,3 +60,5 @@ export default class TopNav extends Component {
         );
     }
 }
+
+export default withRouter(TopNav);

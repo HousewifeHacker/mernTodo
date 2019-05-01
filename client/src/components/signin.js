@@ -10,9 +10,7 @@ import {
     Input,
 } from 'reactstrap';
 
-import { setInStorage } from '../utils/storage';
-
-export default class SignInForm extends Component {
+export default class SignIn extends Component {
     state = {
         errorMessage: '',
         email: '',

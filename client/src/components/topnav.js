@@ -15,7 +15,7 @@ class TopNav extends Component {
     renderAuthLinks = () => {
         return(
             <AuthConsumer>
-                {({ authToken, logout, login }) => (
+                {({ authToken, logout }) => (
                     <div>
                         {authToken ? (
                             <Button onClick={logout}>Logout</Button>
@@ -24,7 +24,8 @@ class TopNav extends Component {
                                 <Button
                                     outline
                                     color="link"
-                                    onClick={(e) => login('dummy_token')}>
+                                    tag={Link}
+                                    to="/signin">
                                         Sign In
                                 </Button>
                                 <Button

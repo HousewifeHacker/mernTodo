@@ -56,13 +56,10 @@ export default class ToDoList extends Component {
         // tasks order saved as array of ids under List model
         axios.put(`api/lists/${this.state.listId}`, {
             tasks: tasksIds 
-        })
+        });
     }
 
     render() {
-        if (!this.props.isLoggedIn) {
-            return <Redirect to="/signin" />
-        }
         const { tasks } = this.state;
         const taskElems = tasks.map( (task, index) => {
             return (

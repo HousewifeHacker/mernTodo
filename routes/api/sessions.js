@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
         }
         const user = users[0];
         // validate with bcrypt method defined in schema
-        if (!user.validatePassword) {
+        if (!user.validatePassword(password)) {
             return res.send({
                 success: false,
                 message: 'Invalid Password',

@@ -21,7 +21,7 @@ class AuthProvider extends React.Component {
     logout = () => {
         const { authToken } = this.state;
         if (authToken) {
-            axios.delete(`api/sessions/${authToken}`)
+            axios.delete(`/api/sessions/${authToken}`)
                 .then(res => {
                     setInStorage('jessies_mern_todo', {});
                     this.setState({ authToken: null });
@@ -31,7 +31,7 @@ class AuthProvider extends React.Component {
     }
 
     verifyToken = (token) => {
-        axios.get(`api/sessions/${token}`)
+        axios.get(`/api/sessions/${token}`)
             .then(res => {
                 const { data } = res;
                 if (!data.success) {

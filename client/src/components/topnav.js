@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     Button,
     Navbar,
@@ -11,7 +11,7 @@ import {
 
 import { AuthConsumer } from '../utils/AuthContext';
 
-class TopNav extends Component {
+export default class TopNav extends Component {
     renderAuthLinks = () => {
         return(
             <AuthConsumer>
@@ -61,5 +61,3 @@ class TopNav extends Component {
         );
     }
 }
-
-export default withRouter(TopNav);

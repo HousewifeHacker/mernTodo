@@ -7,7 +7,8 @@ const Task = require('../../models/Task');
 
 // just the list schema for each list
 router.get('/', (req, res) => {
-    List.find()
+    const user = req.body.user;
+    List.find({user: user})
         .then(lists => res.json(lists));
 });
 
@@ -29,8 +30,7 @@ router.post('/', (req, res) => {
 });
 
 // used to reorder the tasks in a list
-router.put('/:id', (req, res, next) => {
-    
+router.put('/:id', (req, res, next) => { 
     List.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, doc) => {
         if (!doc || err) {
             const error = new Error('Error updating list');

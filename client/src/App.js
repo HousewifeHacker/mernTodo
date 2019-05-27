@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -10,6 +10,7 @@ import TopNav from './components/topnav';
 import ToDoList from './components/todolist';
 import SignUpForm from './components/signupform';
 import SignInForm from './components/signinform';
+import ListsMenu from './components/listsmenu';
 
 const Dummy = () => (
     <div>
@@ -21,18 +22,17 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Router>
-                    <AuthProvider>
-                        <TopNav />
-                        <Switch>
-                            <ProtectedRoute exact path="/" component={ToDoList} />
-                            <ProtectedRoute path="/dumby" component={Dummy} />
-                            <Route path="/signup" component={SignUpForm} />
-                            <Route path="/signin" component={SignInForm} />
-                        </Switch>
-                       <Link to="/dumby">Dumb</Link>
-                    </AuthProvider>
-                </Router>
+                <AuthProvider>
+                    <TopNav />
+                    <Switch>
+                        <ProtectedRoute exact path="/" component={ListsMenu} />
+                        <ProtectedRoute path="/lists/:listId" component={ToDoList} />
+                        <ProtectedRoute exact path="/dumby" component={Dummy} />
+                        <Route exact path="/signup" component={SignUpForm} />
+                        <Route exact path="/signin" component={SignInForm} />
+                    </Switch>
+                    <Link to="/dumby">Dumb</Link>
+                </AuthProvider>
             </div>
         );
     }

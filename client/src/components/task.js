@@ -20,7 +20,7 @@ export default class Task extends Component {
         const statusInt = parseInt(e.currentTarget.getAttribute('status'));
         if (statusInt in [0,1,2]) {
             this.setState({status: statusInt});
-            axios.put(`api/tasks/${this.props._id}`, {
+            axios.put(`/api/tasks/${this.props._id}`, {
                 status: statusInt
             });
         };

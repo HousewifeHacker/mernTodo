@@ -12,12 +12,6 @@ import SignUpForm from './components/signupform';
 import SignInForm from './components/signinform';
 import ListsMenu from './components/listsmenu';
 
-const Dummy = () => (
-    <div>
-        Phoney
-    </div>
-)
-
 class App extends Component {
     render() {
         return (
@@ -27,11 +21,9 @@ class App extends Component {
                     <Switch>
                         <ProtectedRoute exact path="/" component={ListsMenu} />
                         <ProtectedRoute path="/lists/:listId" component={ToDoList} />
-                        <ProtectedRoute exact path="/dumby" component={Dummy} />
                         <Route exact path="/signup" component={SignUpForm} />
                         <Route exact path="/signin" component={SignInForm} />
                     </Switch>
-                    <Link to="/dumby">Dumb</Link>
                 </AuthProvider>
             </div>
         );

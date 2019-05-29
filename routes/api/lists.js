@@ -7,8 +7,7 @@ const Task = require('../../models/Task');
 
 // just the list schema for each list
 router.get('/', (req, res) => {
-    const user = req.body.user;
-    List.find({user: user})
+    List.find()
         .then(lists => res.json(lists));
 });
 
@@ -21,6 +20,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const newList = new List({
+        user: req.body.user,
         name: req.body.name,
     });
 

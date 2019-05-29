@@ -4,6 +4,13 @@ const router = express.Router();
 
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSession');
+const List = require('../../models/List');
+
+router.get('/:id/lists', (req, res) => {
+    List.find({user: req.params.id}).then(
+        lists => res.json(lists)
+    );
+});
 
 router.post('/', (req, res, next) => {
     let {email, password} = req.body;

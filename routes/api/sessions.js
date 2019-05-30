@@ -18,7 +18,8 @@ router.get('/:id', (req, res) => {
         }
         return res.send({
             success: true,
-            message: 'Success'
+            message: 'Success',
+            user: sessions[0].userId,
         });
     });
 });

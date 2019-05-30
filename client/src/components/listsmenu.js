@@ -8,17 +8,19 @@ import {
     ListGroupItem,
 } from 'reactstrap';
 
+import { AuthContext } from '../utils/AuthContext';
+
 export default class ListMenu extends Component {
-    state = { lists: [], user: "5c8d916bfd6c30d0ad64efda" };
+    state = { lists: [] };
 
     componentDidMount() {
-        const user = this.state.user;
+        const user = this.context.user;
         axios.get(`/api/users/${user}/lists`)
             .then(res => this.setState({lists: res.data}));
     }
 
     addList = () => {
-        const user = this.state.user;
+        const user = this.context.user;
         const name = prompt('Enter project name');
         if (name) {
             axios.post('/api/lists', {
@@ -53,3 +55,5 @@ export default class ListMenu extends Component {
         );
     }
 }
+
+ListMenu.contextType = AuthContext;

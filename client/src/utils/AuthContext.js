@@ -8,14 +8,14 @@ const AuthContext = React.createContext({
 });
 
 class AuthProvider extends React.Component {
-    // TODO
-    // probably want user_id too
     state = {
         authToken: null,
+        user: null,
     };
-    login = (authToken) => {
+    login = (authToken, user) => {
         this.setState({
             authToken: authToken,
+            user: user,
         });
     }
     logout = () => {
@@ -24,7 +24,10 @@ class AuthProvider extends React.Component {
             axios.delete(`/api/sessions/${authToken}`)
                 .then(res => {
                     setInStorage('jessies_mern_todo', {});
-                    this.setState({ authToken: null });
+                    this.setState({
+                        authToken: null,
+                        user: null,
+                    });
                });
         }
 
@@ -37,7 +40,7 @@ class AuthProvider extends React.Component {
                 if (!data.success) {
                     this.logout();
                 } else {
-                    this.login(token);
+                    this.login(token, data.user);
                 }
             });
     }
@@ -76,6 +79,7 @@ class AuthProvider extends React.Component {
         return(
             <AuthContext.Provider value={{
                 authToken: this.state.authToken,
+                user: this.state.user,
                 verifyToken: this.verifyToken,
                 logout: this.logout,
                 login: this.login
@@ -88,4 +92,4 @@ class AuthProvider extends React.Component {
 
 const AuthConsumer = AuthContext.Consumer;
 
-export { AuthConsumer, AuthProvider};
+export { AuthConsumer, AuthContext, AuthProvider};

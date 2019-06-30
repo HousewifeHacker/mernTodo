@@ -7,7 +7,7 @@ import './App.css';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { AuthProvider } from './utils/AuthContext';
 import TopNav from './topnav/topnav';
-import ToDoList from './components/todolist';
+import ToDoList from './todolist/todolist';
 import SignUpForm from './components/signupform';
 import SignInForm from './components/signinform';
 import ListsMenu from './components/listsmenu';

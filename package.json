@@ -5,14 +5,15 @@
   "author": "housewifehacker <housewifehacker@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^3.0.4",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
     "express": "^4.16.4",
+    "fontawesome": "^5.6.3",
     "mongoose": "^5.4.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.19.1"
   },
   "scripts": {
     "client-install": "cd client && yarn install",

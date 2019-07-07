@@ -12,6 +12,12 @@ import SignUpForm from './components/signupform';
 import SignInForm from './components/signinform';
 import ListsMenu from './components/listsmenu';
 
+//icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faTrash);
+
 class App extends Component {
     render() {
         return (

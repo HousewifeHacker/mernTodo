@@ -10,7 +10,8 @@ import {
     ListGroupItem,
 } from 'reactstrap';
 import { Draggable } from 'react-beautiful-dnd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import DeleteTask from './deletetask';
 
 export default class Task extends Component {
     state = {
@@ -74,15 +75,8 @@ export default class Task extends Component {
                     >
                         <ListGroupItem className="clearfix">
                             {name}
+                            <DeleteTask handleDelete={() => removeTask(_id)} />
                             {this.renderStatusButton()}
-                            <Button
-                                className="remove-btn mr-1 float-left"
-                                color="danger"
-                                size="sm"
-                                onClick={() => removeTask(_id)}
-                            >
-                                <FontAwesomeIcon icon="trash" />
-                            </Button>
                         </ListGroupItem>
                     </div>
                 )}

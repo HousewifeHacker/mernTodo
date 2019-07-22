@@ -18,6 +18,7 @@
     "client-install": "cd client && yarn install",
     "server": "nodemon server.js",
     "client": "cd client && yarn start",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "client-build": "cd client && yarn build",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"" 
   }
 }

@@ -9,8 +9,7 @@
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
     "express": "^4.16.4",
-    "mongoose": "^5.4.4",
-    "pm2": "^3.5.1"
+    "mongoose": "^5.4.4"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
@@ -18,10 +17,10 @@
   "scripts": {
     "client-install": "cd client && yarn install",
     "dev-server": "nodemon server.js",
-    "server": "pm2 start server.js",
+    "server": "node server.js",
     "client": "cd client && yarn start",
     "client-build": "cd client && yarn build",
     "dev": "concurrently --kill-others-on-fail \"yarn dev-server\" \"yarn client\"",
-    "build": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client-build\""
+    "postbuild": "NPM_CONFIG_PRODUCTION=false yarn client-install && yarn client-build"
   }
 }

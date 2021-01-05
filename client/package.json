@@ -7,7 +7,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "jss-plugin-expand": "^10.0.0-alpha.7",
     "jss-plugin-nested": "^10.0.0-alpha.7",
